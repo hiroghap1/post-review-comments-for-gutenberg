@@ -1,0 +1,216 @@
+/**
+ * Post Review Comments for Gutenberg
+ * Editor Styles
+ */
+
+/* Block highlighting */
+.has-block-comments {
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: -2px;
+		left: -2px;
+		right: -2px;
+		bottom: -2px;
+		border: 2px solid #3582c4;
+		border-radius: 2px;
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	&.is-selected::before {
+		opacity: 1;
+	}
+}
+
+.has-unresolved-comments {
+	&::before {
+		border-color: #f0b849;
+		opacity: 0.7;
+	}
+
+	&.is-selected::before {
+		opacity: 1;
+	}
+}
+
+/* Comment sidebar */
+.comment-thread {
+	margin-bottom: 16px;
+}
+
+.comment-with-replies {
+	margin-bottom: 16px;
+}
+
+.comment-item {
+	padding: 12px;
+	background: #f0f0f1;
+	border-radius: 4px;
+	margin-bottom: 8px;
+
+	&.is-reply {
+		margin-left: 32px;
+		background: #fafafa;
+	}
+}
+
+.comment-avatar {
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.comment-content {
+	flex: 1;
+	min-width: 0;
+}
+
+.comment-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+	font-size: 13px;
+
+	strong {
+		font-weight: 600;
+	}
+
+	.comment-time {
+		color: #757575;
+		font-size: 12px;
+	}
+}
+
+.comment-body {
+	margin-bottom: 8px;
+	font-size: 14px;
+	line-height: 1.5;
+	word-wrap: break-word;
+}
+
+.comment-actions {
+	display: flex;
+	gap: 8px;
+	font-size: 12px;
+
+	.components-button {
+		height: auto;
+		padding: 0;
+		font-size: 12px;
+	}
+}
+
+.comment-replies {
+	margin-top: 8px;
+}
+
+.reply-form {
+	margin-left: 32px;
+	margin-top: 8px;
+}
+
+.comment-form {
+	margin-top: 16px;
+
+	.components-textarea-control__input {
+		min-height: 80px;
+	}
+}
+
+.comment-form-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.no-comments {
+	padding: 16px;
+	text-align: center;
+	color: #757575;
+	font-style: italic;
+}
+
+/* Comment overview */
+.comment-overview {
+	.comment-stats {
+		padding: 12px;
+		background: #f0f0f1;
+		border-radius: 4px;
+		margin-bottom: 16px;
+
+		p {
+			margin: 0;
+			font-size: 13px;
+		}
+	}
+
+	.comment-list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.comment-overview-item {
+		padding: 12px;
+		background: #fafafa;
+		border-left: 3px solid #3582c4;
+		border-radius: 4px;
+		font-size: 13px;
+
+		&.is-resolved {
+			border-left-color: #4ab866;
+			opacity: 0.7;
+		}
+
+		&.is-unresolved {
+			border-left-color: #f0b849;
+		}
+	}
+
+	.comment-overview-header {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin-bottom: 6px;
+
+		.comment-status {
+			font-size: 14px;
+		}
+
+		strong {
+			font-weight: 600;
+		}
+
+		.comment-time {
+			color: #757575;
+			font-size: 11px;
+			margin-left: auto;
+		}
+	}
+
+	.comment-overview-content {
+		margin-bottom: 4px;
+		line-height: 1.4;
+	}
+
+	.comment-reply-count {
+		font-size: 11px;
+		color: #757575;
+	}
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+	.comment-item.is-reply,
+	.reply-form {
+		margin-left: 16px;
+	}
+
+	.comment-avatar {
+		width: 24px;
+		height: 24px;
+	}
+}
