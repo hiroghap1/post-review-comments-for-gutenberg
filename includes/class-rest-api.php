@@ -145,7 +145,7 @@ class Post_Review_Comments_REST_API {
 				'name' => $current_user->display_name,
 				'avatar' => get_avatar_url( $current_user->ID ),
 			),
-			'timestamp' => current_time( 'mysql', true ),
+			'timestamp' => current_time( 'mysql' ),
 			'resolved' => false,
 			'replies' => array(),
 		);

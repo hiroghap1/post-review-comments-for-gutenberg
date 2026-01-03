@@ -1,3 +1,6 @@
+import { __, sprintf } from '@wordpress/i18n';
+import { dateI18n } from '@wordpress/date';
+
 /**
  * Format timestamp for display
  * @param {string} timestamp ISO timestamp
@@ -12,16 +15,35 @@ export function formatCommentDate( timestamp ) {
 	const diffDays = Math.floor( diffMs / 86400000 );
 
 	if ( diffMins < 1 ) {
-		return 'Just now';
+		return __( 'Just now', 'post-review-comments' );
 	} else if ( diffMins < 60 ) {
-		return `${ diffMins } minute${ diffMins > 1 ? 's' : '' } ago`;
+		return sprintf(
+			__( '%d minutes ago', 'post-review-comments' ),
+			diffMins
+		);
 	} else if ( diffHours < 24 ) {
-		return `${ diffHours } hour${ diffHours > 1 ? 's' : '' } ago`;
+		return sprintf(
+			__( '%d hours ago', 'post-review-comments' ),
+			diffHours
+		);
 	} else if ( diffDays < 7 ) {
-		return `${ diffDays } day${ diffDays > 1 ? 's' : '' } ago`;
+		return sprintf(
+			__( '%d days ago', 'post-review-comments' ),
+			diffDays
+		);
 	} else {
-		return date.toLocaleDateString();
+		return date.toLocaleDateString( 'ja-JP' );
 	}
+}
+
+/**
+ * Format timestamp using WordPress date format
+ * @param {string} timestamp ISO timestamp
+ * @returns {string} Formatted date string using WordPress settings
+ */
+export function formatFullDate( timestamp ) {
+	const dateFormat = window.postReviewCommentsData?.dateFormat || 'Y年n月j日';
+	return dateI18n( dateFormat, timestamp );
 }
 
 /**

@@ -39,6 +39,13 @@ function post_review_comments_enqueue_block_editor_assets() {
 		true
 	);
 
+	// Set script translations
+	wp_set_script_translations(
+		'post-review-comments-editor',
+		'post-review-comments',
+		POST_REVIEW_COMMENTS_PLUGIN_DIR . 'languages'
+	);
+
 	wp_enqueue_style(
 		'post-review-comments-editor',
 		POST_REVIEW_COMMENTS_PLUGIN_URL . 'build/index.css',
@@ -56,9 +63,22 @@ function post_review_comments_enqueue_block_editor_assets() {
 		),
 		'canComment' => current_user_can( 'edit_posts' ),
 		'nonce' => wp_create_nonce( 'wp_rest' ),
+		'dateFormat' => get_option( 'date_format', 'Y年n月j日' ),
 	) );
 }
 add_action( 'enqueue_block_editor_assets', 'post_review_comments_enqueue_block_editor_assets' );
+
+/**
+ * Load plugin textdomain
+ */
+function post_review_comments_load_textdomain() {
+	load_plugin_textdomain(
+		'post-review-comments',
+		false,
+		dirname( plugin_basename( __FILE__ ) ) . '/languages'
+	);
+}
+add_action( 'plugins_loaded', 'post_review_comments_load_textdomain' );
 
 /**
  * Register post meta

@@ -17,6 +17,9 @@ const withCommentHighlight = createHigherOrderComponent( ( BlockListBlock ) => {
 				const blockEditorStore = select( 'core/block-editor' );
 				const commentsStore = select( STORE_NAME );
 
+				// Trigger resolver to fetch all comments
+				commentsStore.getAllComments();
+
 				const blockId = getBlockIdentifier(
 					clientId,
 					blockEditorStore.getBlock,

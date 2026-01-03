@@ -7,7 +7,9 @@ export default function CommentForm( { blockId, parentId = null, mode = 'new', o
 	const [ isSubmitting, setIsSubmitting ] = useState( false );
 
 	const handleSubmit = async ( e ) => {
-		e.preventDefault();
+		if ( e ) {
+			e.preventDefault();
+		}
 
 		if ( ! content.trim() ) {
 			return;
@@ -27,6 +29,14 @@ export default function CommentForm( { blockId, parentId = null, mode = 'new', o
 		}
 	};
 
+	const handleKeyDown = ( e ) => {
+		// Submit on Shift+Enter or Cmd+Enter (Mac) / Ctrl+Enter (Windows)
+		if ( e.key === 'Enter' && ( e.shiftKey || e.metaKey || e.ctrlKey ) ) {
+			e.preventDefault();
+			handleSubmit();
+		}
+	};
+
 	const placeholder = mode === 'reply'
 		? __( 'Write a reply...', 'post-review-comments' )
 		: __( 'Add a comment...', 'post-review-comments' );
@@ -38,6 +48,7 @@ export default function CommentForm( { blockId, parentId = null, mode = 'new', o
 				onChange={ setContent }
 				placeholder={ placeholder }
 				rows={ 3 }
+				onKeyDown={ handleKeyDown }
 			/>
 			<div className="comment-form-actions">
 				<Button

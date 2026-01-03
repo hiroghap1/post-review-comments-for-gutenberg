@@ -3,7 +3,7 @@ import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { addFilter } from '@wordpress/hooks';
 import { Fragment } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { comment as commentIcon } from '@wordpress/icons';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { getBlockIdentifier, assignBlockIdentifier } from '../utils/block-identifier';
@@ -16,7 +16,7 @@ const withCommentButton = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
 		const { clientId } = props;
 
-		const { hasComments, canComment } = useSelect(
+		const { hasComments, commentCount, canComment } = useSelect(
 			( select ) => {
 				const blockEditorStore = select( 'core/block-editor' );
 				const commentsStore = select( STORE_NAME );
@@ -27,8 +27,11 @@ const withCommentButton = createHigherOrderComponent( ( BlockEdit ) => {
 					blockEditorStore.getBlocks
 				);
 
+				const comments = blockId ? commentsStore.getCommentsForBlock( blockId ) : [];
+
 				return {
-					hasComments: blockId ? commentsStore.hasComments( blockId ) : false,
+					hasComments: comments.length > 0,
+					commentCount: comments.length,
 					canComment: window.postReviewCommentsData?.canComment || false,
 				};
 			},
@@ -55,6 +58,10 @@ const withCommentButton = createHigherOrderComponent( ( BlockEdit ) => {
 			return <BlockEdit { ...props } />;
 		}
 
+		const label = hasComments
+			? sprintf( __( '%d Comments', 'post-review-comments' ), commentCount )
+			: __( 'Add Comment', 'post-review-comments' );
+
 		return (
 			<Fragment>
 				<BlockEdit { ...props } />
@@ -62,10 +69,15 @@ const withCommentButton = createHigherOrderComponent( ( BlockEdit ) => {
 					<ToolbarGroup>
 						<ToolbarButton
 							icon={ commentIcon }
-							label={ __( 'Add Comment', 'post-review-comments' ) }
+							label={ label }
 							onClick={ handleCommentClick }
 							isPressed={ hasComments }
-						/>
+							className={ hasComments ? 'has-comments-badge' : '' }
+						>
+							{ hasComments && (
+								<span className="comment-count-badge">{ commentCount }</span>
+							) }
+						</ToolbarButton>
 					</ToolbarGroup>
 				</BlockControls>
 			</Fragment>
